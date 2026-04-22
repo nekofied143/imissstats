@@ -1,12 +1,11 @@
 let charts = [];
 
-// Handle file upload button click
 document.getElementById("uploadBtn").onclick = () => document.getElementById("fileInput").click();
 document.getElementById("fileInput").addEventListener("change", handleFile);
 
 Chart.defaults.maintainAspectRatio = false;
 
-// Load Excel file and process it
+// Handle file import and load content dynamically
 function handleFile(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -47,18 +46,18 @@ function processData(rows) {
     const result = buildDataset(GLOBAL_DATA);
     renderAll(result);
     setupFilter();
-    // Hide loading spinner
+
+    // Hide loading spinner and show the dashboard
     document.getElementById("loading").classList.remove("show");
+    document.getElementById("dashboard-container").style.display = "block";  // Show the dashboard
 }
 
 // Extract year from the first valid date in the data
 function extractYearFromData(data) {
-    // Look at the first column and try to find a valid date
     for (let i = 0; i < data.length; i++) {
         const dateRaw = data[i][0];
         const date = parseDate(dateRaw);
         if (date) {
-            // Return the year of the first valid date
             return date.getFullYear();
         }
     }
@@ -90,7 +89,6 @@ function buildDataset(data, monthFilter = "ALL") {
 
         const month = date.toLocaleString("en-US", { month: "long" });
 
-        // Apply filter based on month
         if (monthFilter !== "ALL" && month !== monthFilter) return;
 
         totalTickets++;
@@ -214,10 +212,6 @@ function renderStaffChart(data) {
             scales: {
                 y: { beginAtZero: true, ticks: { color: "#fff" } },
                 x: { ticks: { color: "#fff" } }
-            },
-            hover: {
-                mode: "nearest",
-                intersect: true
             }
         }
     });
@@ -254,10 +248,6 @@ function renderPie(id, data) {
             plugins: {
                 legend: {
                     labels: { color: "#fff" }
-                },
-                tooltip: {
-                    enabled: true, // Enable tooltip on hover
-                    backgroundColor: 'rgba(0,0,0,0.7)', // Customize tooltip background color
                 }
             }
         }

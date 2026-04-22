@@ -1,90 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>IMISS Dashboard</title>
+  <meta charset="UTF-8">
+  <title>IMISS STATISTICS DASHBOARD</title>
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <header>
-            <h1>IMISS STATISTICS DASHBOARD</h1>
+  <header>
+    <h1>IMISS STATISTICS DASHBOARD</h1>
 
-            <div class="controls">
-                <button id="uploadBtn" class="btn">Import Excel</button>
-                <input type="file" id="fileInput" accept=".xlsx" hidden>
+    <div class="controls">
+      <button id="uploadBtn" class="btn">Import Excel</button>
+      <input type="file" id="fileInput" accept=".xlsx" hidden>
+      
+      <select id="monthFilter" class="btn">
+        <option value="ALL">All Months</option>
+      </select>
+    </div>
+  </header>
 
-                <select id="monthFilter" class="btn">
-                    <option value="ALL">All Months</option>
-                </select>
-            </div>
-        </header>
+  <!-- Content Hidden Initially -->
+  <div id="loading" class="loading">
+    <span>Loading...</span>
+  </div>
 
-        <!-- KPI -->
-        <div class="kpi-row">
-            <!-- Example of adding a tooltip to the Total Logs KPI -->
-            <div class="kpi" title="This represents the total number of logs recorded during the selected period.">
-                <span>Total logs</span>
-                <h3 id="kpiTotal">0</h3>
-            </div>
-            <div class="kpi" title="This represents the top staff during the selected period."><span>Top Staff</span>
-                <h3 id="kpiTopStaff">-</h3>
-            </div>
-            <div class="kpi" title="This represents the top station during the selected period."><span>Top Station</span>
-                <h3 id="kpiTopStation">-</h3>
-            </div>
-            <div class="kpi" title="This represents the top concern during the selected period."><span>Top Concern</span>
-                <h3 id="kpiTopConcern">-</h3>
-            </div>
-        </div>
-
-        <div class="grid">
-
-            <!-- MONTHS -->
-            <section class="panel" id= "kpi" title="This represents the monthly call logs per month.">
-                <h2>Monthly call logs</h2>
-                <div id="gauges" class="gauges"></div>
-            </section>
-
-            <!-- STAFF -->
-            <section class="panel" id= "kpi" title="This represents the top 3 staff per month.">
-                <h2>Top 3 Staff</h2>
-                <div class="chart-box">
-                    <canvas id="staffChart"></canvas>
-                </div>
-            </section>
-
-            <!-- RIGHT -->
-            <section class="panel">
-                <h2>Stations</h2>
-                <div class="chart-box small" id= "kpi" title="This represents the top stations call recieved.">
-                    <canvas id="stationChart"></canvas>
-                </div>
-
-                <h2>Concerns</h2>
-                <div class="chart-box small" id= "kpi" title="This represents the top concerns being recieved.">
-                    <canvas id="concernChart"></canvas>
-                </div>
-            </section>
-
-        </div>
-
-        <!-- Loading Spinner -->
-        <div id="loading" class="loading">
-            <span>Loading...</span>
-        </div>
-
+  <div id="dashboard-container" class="dashboard-container" style="display: none;">
+    <!-- KPI -->
+    <div class="kpi-row">
+      <div class="kpi"><span>Total logs</span><h3 id="kpiTotal">0</h3></div>
+      <div class="kpi"><span>Top Staff</span><h3 id="kpiTopStaff">-</h3></div>
+      <div class="kpi"><span>Top Station</span><h3 id="kpiTopStation">-</h3></div>
+      <div class="kpi"><span>Top Concern</span><h3 id="kpiTopConcern">-</h3></div>
     </div>
 
-    <script src="app.js"></script>
-</body>
+    <div class="grid">
+      <!-- MONTHS -->
+      <section class="panel">
+        <h2>Monthly call logs</h2>
+        <div id="gauges" class="gauges"></div>
+      </section>
 
+      <!-- STAFF -->
+      <section class="panel">
+        <h2>Top 3 Staff</h2>
+        <div class="chart-box">
+          <canvas id="staffChart"></canvas>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="panel">
+        <h2>Stations</h2>
+        <div class="chart-box small">
+          <canvas id="stationChart"></canvas>
+        </div>
+
+        <h2>Concerns</h2>
+        <div class="chart-box small">
+          <canvas id="concernChart"></canvas>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+<script src="app.js"></script>
+</body>
 </html>
