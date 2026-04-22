@@ -1,0 +1,270 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial;
+}
+
+body {
+  background: linear-gradient(135deg, #1f2a44, #2c3e66);
+  color: #fff;
+  overflow-y: auto;
+}
+
+.container {
+  padding: 15px;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 12px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.controls {
+  margin-top: 8px;
+}
+
+button, select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover, select:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* KPI */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #2c3e66;
+  padding: 10px 0;
+}
+
+.kpi {
+  background: rgba(255,255,255,0.12);
+  text-align: center;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.6fr 1fr;
+  gap: 12px;
+}
+
+/* PANEL */
+.panel {
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* MONTH CARDS */
+.gauges {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 20px;
+}
+
+.gauge-card {
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 140px;
+}
+
+.gauge-card h4 {
+  font-size: 16px;
+}
+
+.month-value {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* CHARTS */
+.chart-box {
+  position: relative;
+  height: 260px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.chart-box.small {
+  height: 200px;
+  margin-bottom: 10px;
+  padding: 0px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* LOADING SPINNER */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.loading.show {
+  display: flex;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Improve contrast for text */
+.kpi h3, .gauge-card h4, .month-value {
+  color: #fff; /* Ensure high contrast with background */
+}
+
+.chart-box {
+  background: rgba(255, 255, 255, 0.1); /* Subtle background for charts */
+  border-radius: 12px;
+}
+
+/* Improve pie chart colors */
+.chart-box canvas {
+  filter: brightness(1.1); /* Make the colors pop */
+}
+
+/* Legend color contrast */
+.chart-box .legend-item {
+  color: #fff;
+}
+
+/* Style the month filter dropdown */
+#monthFilter {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #4a7bd1;
+  color: #fff;
+  border: none;
+}
+
+/* Add an icon to the dropdown */
+#monthFilter::after {
+  content: "🔽";
+  padding-left: 8px;
+}
+
+/* Improved loading indicator */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 1001;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.loading.show {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Adding a spinning animation to the loading icon */
+.loading:before {
+  content: '';
+  border: 4px solid #fff;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Basic tooltip styling */
+.kpi[title],
+#kpi[title] {
+  position: relative;
+}
+
+.kpi[title]:hover::after,
+#kpi[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1001;
+}
+
+/* Header styling */
+header h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  transition: all 0.3s ease-in-out; /* Smooth transition for any header change */
+}
