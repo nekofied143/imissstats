@@ -24,7 +24,9 @@ function handleFile(e) {
         const workbook = XLSX.read(data, { type: "array" });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-        processData(json);
+
+        // pass uploaded filename
+        processData(json, file.name);
     };
 
     reader.readAsArrayBuffer(file);
@@ -34,11 +36,11 @@ function handleFile(e) {
 let GLOBAL_DATA = [];
 
 // Process data and render charts
-function processData(rows) {
+function processData(rows, fileName = "") {
     GLOBAL_DATA = rows.slice(1); // store clean data
 
-    // Extract year from the first valid date in the data
-    const year = extractYearFromData(GLOBAL_DATA);
+    // Extract year from file name first, fallback to data
+    const year = extractYearFromFileName(fileName) || extractYearFromData(GLOBAL_DATA);
 
     // Dynamically update the header title with the extracted year
     updateHeaderTitle(year);
@@ -49,7 +51,13 @@ function processData(rows) {
 
     // Hide loading spinner and show the dashboard
     document.getElementById("loading").classList.remove("show");
-    document.getElementById("dashboard-container").style.display = "block";  // Show the dashboard
+    document.getElementById("dashboard-container").style.display = "block";
+}
+
+// Extract year from file name
+function extractYearFromFileName(fileName) {
+    const match = fileName.match(/\b(20\d{2}|19\d{2})\b/);
+    return match ? parseInt(match[0], 10) : null;
 }
 
 // Extract year from the first valid date in the data
@@ -61,7 +69,7 @@ function extractYearFromData(data) {
             return date.getFullYear();
         }
     }
-    return new Date().getFullYear(); // Default to current year if no date is found
+    return new Date().getFullYear();
 }
 
 // Update the header title with the year
